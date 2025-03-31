@@ -1,30 +1,42 @@
+<script setup lang="ts">
+import { ref, watchEffect } from 'vue';
+import Loader from '@/components/loader/Loader.vue';
+import { useUserStore } from '@/store/userStore';
+import { useRouter } from 'vue-router';
+
+const loading = ref<boolean>(false);
+const menuActive = ref(false);
+const navActive = ref(false);
+const router = useRouter();
+const store = useUserStore();
+
+export type NavContent = {
+  navActive: boolean;
+  setNavActive: (navActive: boolean) => void;
+  signActive: boolean;
+  setSignActive: (signActive: boolean) => void;
+};
+
+watchEffect(() => {
+
+  if (store.isLoggedIn) {
+    router.replace('/');
+  } else {
+    router.replace('/SignIn');
+    window.history.replaceState(null, '', window.location.href);
+  }
+});
+
+
+</script>
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <Loader v-if="loading" />
+  <div v-else>
+    <nav>
+      <router-link to="/">Home</router-link>
+      |
+      <router-link to="/about">About</router-link>
+    </nav>
+    <router-view />
+  </div>
 </template>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
