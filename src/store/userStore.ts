@@ -80,7 +80,6 @@ export const useUserStore = defineStore('userStore', () => {
       } catch (event: any) {
         message.value = event.response.data.message;
         return event.message;
-        
       }
     };
     

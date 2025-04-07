@@ -50,6 +50,7 @@ export const useAuthStore = defineStore('authStore', () => {
         userStore.signInUser = response.data.signInUser;
         userStore.accessToken = response.data.accessToken;
         userStore.refreshToken = response.data.refreshToken;
+        userStore.message = null;
         return response.data;
       } catch (e: any) {
         userStore.message = e.response.data.message;
@@ -62,9 +63,7 @@ export const useAuthStore = defineStore('authStore', () => {
     
     const logOut = async() => {
       clearAuthHeader();
-      userStore.$reset();
-      deviceStore.$reset();
-      groupStore.$reset();
+      userStore.isLoggedIn = false;
     };
     
     return {

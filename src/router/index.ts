@@ -1,21 +1,29 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
-import HomeView from '../views/HomeView.vue';
+import Main from '@/components/main/Main.vue';
+import Layout from '@/components/nav/layout/Layout.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView,
+    components: {
+      default: Main,
+      NavBar: Layout
+    },
   },
   {
-    path: '/about',
-    name: 'about',
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
+    path: '/SignIn',
+    name: 'SignIn',
+    component: () => import(/* webpackChunkName: "SignIn" */ '@/components/signInForm/SignIn.vue'),
+  },
+  {
+    path: '/SignUp',
+    name: 'SignUp',
+    component: () => import(/* webpackChunkName: "SignUp" */ '@/components/signUpForm/desktop/SignUp.vue'),
   },
 ];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory('/'),
   routes,
 });
 
